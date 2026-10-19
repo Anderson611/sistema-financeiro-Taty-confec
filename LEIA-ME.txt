@@ -1,0 +1,14 @@
+TATY CONFECÇÕES — SISTEMA FINANCEIRO
+
+Arquivos:
+- index.html: estrutura da aplicação.
+- style.css: estilos e responsividade.
+- script.js: funcionalidades e dados demonstrativos.
+
+Como executar:
+1. Mantenha os três arquivos na mesma pasta.
+2. Abra index.html no navegador. Para melhor compatibilidade, use um servidor local (por exemplo, a extensão Live Server do VS Code).
+3. O painel de imagens aparece no Dashboard administrativo e já exibe as seis imagens incluídas no projeto (casa, compras, boletos, crédito, dados e dívidas). Clique em “Trocar imagem” para usar suas próprias imagens. Para voltar à imagem original, clique em “Remover”. Imagens próprias ficam no armazenamento local deste navegador e devem ter até 1 MB.
+
+Atenção:
+Este projeto continua usando localStorage e credenciais de demonstração no navegador. Não use para armazenar dados financeiros reais sem implementar um backend, autenticação segura, proteção de dados e backups. As senhas do exemplo não são armazenadas de forma segura.

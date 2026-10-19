@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taty Confecções - Sistema Financeiro</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+<div id="loginPage" class="login-page">
+    <div class="login-box">
+        <div class="logo">
+            <div class="logo-icon">TC</div>
+            <h1>Taty Confecções</h1>
+            <p>Sistema de acompanhamento financeiro</p>
+        </div>
+
+        <div class="login-tabs">
+            <button id="tabCliente" class="active" onclick="alterarLogin('cliente')">Cliente</button>
+            <button id="tabAdmin" onclick="alterarLogin('admin')">Administrador</button>
+        </div>
+
+        <div class="login-tabs" style="margin-top:-5px;">
+            <button id="tabEntrarCliente" class="active" onclick="alternarClienteAcesso('entrar')">Entrar</button>
+            <button id="tabCadastrarCliente" onclick="alternarClienteAcesso('cadastrar')">Criar cadastro</button>
+        </div>
+
+        <form id="loginClienteForm">
+            <div class="form-group">
+                <label for="loginCpf">CPF</label>
+                <input type="text" id="loginCpf" class="form-control" placeholder="Digite seu CPF" maxlength="14" required>
+            </div>
+            <div class="form-group">
+                <label for="loginSenhaCliente">Senha</label>
+                <input type="password" id="loginSenhaCliente" class="form-control" placeholder="Digite sua senha" required>
+            </div>
+            <button class="btn btn-primary btn-block" type="submit">Entrar no sistema</button>
+            <div class="demo-login">
+                <strong>Cliente de demonstração:</strong><br>
+                CPF: 11111111111<br>
+                Senha: 1234
+            </div>
+        </form>
+
+        <form id="cadastroClienteForm" class="hidden" onsubmit="cadastrarClienteInicial(event)">
+            <div class="form-group">
+                <label for="cadNome">Nome completo</label>
+                <input id="cadNome" class="form-control" placeholder="Digite seu nome completo" required>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="cadCpf">CPF</label>
+                    <input id="cadCpf" class="form-control" maxlength="14" placeholder="000.000.000-00" required>
+                </div>
+                <div class="form-group">
+                    <label for="cadTelefone">WhatsApp</label>
+                    <input id="cadTelefone" class="form-control" maxlength="15" placeholder="(88) 99999-9999" required>
+                </div>
+                <div class="form-group">
+                    <label for="cadEmail">E-mail</label>
+                    <input id="cadEmail" class="form-control" type="email" placeholder="seu@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="cadCidade">Cidade</label>
+                    <input id="cadCidade" class="form-control" placeholder="Sua cidade">
+                </div>
+                <div class="form-group">
+                    <label for="cadSenha">Senha</label>
+                    <input id="cadSenha" class="form-control" type="password" minlength="4" required>
+                </div>
+                <div class="form-group">
+                    <label for="cadSenhaConfirmacao">Confirmar senha</label>
+                    <input id="cadSenhaConfirmacao" class="form-control" type="password" minlength="4" required>
+                </div>
+            </div>
+
+            <div class="demo-login">
+                <strong>Importante:</strong><br>
+                O limite de crédito será definido pela Taty Confecções após o cadastro.
+            </div>
+
+            <button class="btn btn-primary btn-block" type="submit">Criar minha conta</button>
+            <button class="btn btn-light btn-block" type="button" onclick="alternarClienteAcesso('entrar')">Já tenho cadastro</button>
+        </form>
+
+        <form id="loginAdminForm" class="hidden">
+            <div class="form-group">
+                <label for="loginAdmin">Usuário</label>
+                <input type="text" id="loginAdmin" class="form-control" placeholder="Usuário administrativo" required>
+            </div>
+            <div class="form-group">
+                <label for="loginSenhaAdmin">Senha</label>
+                <input type="password" id="loginSenhaAdmin" class="form-control" placeholder="Senha" required>
+            </div>
+            <button class="btn btn-primary btn-block" type="submit">Entrar como administrador</button>
+            <div class="demo-login">
+                <strong>Acesso de demonstração:</strong><br>
+                Usuário: admin<br>
+                Senha: 1234
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="app" class="app hidden">
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h2>Taty Confecções</h2>
+            <span id="sidebarSubtitle">Sistema financeiro</span>
+        </div>
+        <nav id="menu" class="menu"></nav>
+        <div style="padding:15px;">
+            <button onclick="logout()" class="btn" style="width:100%;background:#333;color:white;">🚪 Sair</button>
+        </div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <button class="mobile-menu" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false" onclick="toggleSidebar()">☰</button>
+                <h2 id="topTitle">Dashboard</h2>
+            </div>
+            <div class="user-info">
+                <div><strong id="topUserName">Usuário</strong></div>
+                <div class="avatar" id="avatar">TC</div>
+            </div>
+        </header>
+        <section id="content" class="content"></section>
+    </main>
+</div>
+
+<div id="modal" class="modal hidden">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3 id="modalTitle">Modal</h3>
+            <button class="modal-close" onclick="fecharModal()">×</button>
+        </div>
+        <div id="modalContent"></div>
+    </div>
+</div>
+
+</body>
+</html>
